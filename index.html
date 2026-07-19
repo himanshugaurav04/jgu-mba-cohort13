@@ -132,6 +132,15 @@ body{
 }
 .bulletin-close:hover{opacity:1;}
 
+.sec-filter-row{display:flex; gap:6px; margin-bottom:12px; flex-wrap:wrap;}
+.sec-filter-btn{
+  border:1px solid var(--line); background:var(--bg); color:var(--ink-soft);
+  font-family:inherit; font-size:12px; font-weight:600; padding:6px 12px;
+  border-radius:100px; cursor:pointer; transition:all .15s ease;
+}
+.sec-filter-btn:hover{border-color:var(--blue);}
+.sec-filter-btn.active{background:var(--blue); border-color:var(--blue); color:#fff;}
+
 .xref{
   color:var(--blue); text-decoration:underline dotted; text-underline-offset:2px;
   cursor:pointer; font-weight:700; background:none; border:none; padding:0;
@@ -335,6 +344,12 @@ footer{
   <p class="page-lede">This page consolidates official information shared across JGU emails, live sessions, the Academic Calendar and university documents &mdash; so you don't have to dig through Outlook, UMS, Telegram and upGrad Prism separately.</p>
 
   <div class="section-label">Upcoming across all sections (next 15 days)</div>
+  <div class="sec-filter-row">
+    <button type="button" class="sec-filter-btn active" data-section="ALL">All Sections</button>
+    <button type="button" class="sec-filter-btn" data-section="A">Section A</button>
+    <button type="button" class="sec-filter-btn" data-section="B">Section B</button>
+    <button type="button" class="sec-filter-btn" data-section="C">Section C</button>
+  </div>
   <div id="homeUpcoming">
     <div class="card" style="color:var(--ink-soft); font-size:13.5px;">Loading upcoming sessions&hellip;</div>
   </div>
@@ -343,7 +358,16 @@ footer{
     <b style="color:var(--ink);">Missed a live session?</b> View the recording: log in to <b>upgrad.com/lxp</b> &rarr; open <b>My Programs</b> &rarr; go to the <b>Live Learning</b> tab &rarr; switch to <b>Past Sessions</b> &rarr; find the session and open its recording there.
   </div>
 
-  <div class="note-box" style="margin-top:12px;">This is <b>Term 1</b> of the Master of Business Administration (Online) from OP Jindal Global University, powered by upGrad &mdash; <b>5 subjects</b> this term.</div>
+  <div class="grid" style="margin-top:12px;">
+    <div class="card stat-card">
+      <div class="stat-label">Term</div>
+      <div class="stat-value">Term 1 &middot; MBA (Online), OP Jindal Global University, powered by upGrad</div>
+    </div>
+    <div class="card stat-card">
+      <div class="stat-label">Subjects this term</div>
+      <div class="stat-value">5</div>
+    </div>
+  </div>
 
   <div class="section-label">Section B subjects &amp; faculty</div>
   <div class="card">
@@ -462,6 +486,12 @@ footer{
   <h1 class="page-title">Upcoming Sessions</h1>
   <p class="page-lede">Live sessions, IA windows, and End Term windows opening in the next 15 days &mdash; pulled directly from the official Academic Calendar spreadsheet, across all three sections (A, B, C).</p>
 
+  <div class="sec-filter-row">
+    <button type="button" class="sec-filter-btn active" data-section="ALL">All Sections</button>
+    <button type="button" class="sec-filter-btn" data-section="A">Section A</button>
+    <button type="button" class="sec-filter-btn" data-section="B">Section B</button>
+    <button type="button" class="sec-filter-btn" data-section="C">Section C</button>
+  </div>
   <div id="upcomingContent">
     <div class="card" style="color:var(--ink-soft); font-size:13.5px;">Loading live data from the Academic Calendar&hellip;</div>
   </div>
@@ -937,9 +967,6 @@ function jumpTo(tabName, targetId){
 /* To update: edit the UPCOMING_EVENTS array below and the LIST_UPDATED date. Format: 'YYYY-MM-DD'. */
 const LIST_UPDATED = '19 Jul 2026';
 const UPCOMING_EVENTS = [
-  {date:'2026-07-19', section:'A', subject:'The Firm and the Consumer', session:'Live Session 1', timing:'8:00 - 10:00 AM'},
-  {date:'2026-07-19', section:'B', subject:'Global Economics', session:'Live Session 1', timing:'10:10 - 12:10 PM'},
-  {date:'2026-07-19', section:'C', subject:'Organisational Behaviour', session:'Live Session 1', timing:'12:20 - 2:20 PM'},
   {date:'2026-07-25', section:'B', subject:'Organisational Behaviour', session:'Live Session 1', timing:'6:00 - 8:00 PM'},
   {date:'2026-08-01', section:'A', subject:'Business Communication', session:'Live Session 2', timing:'6:00 - 8:00 PM'},
   {date:'2026-08-01', section:'C', subject:'Global Economics', session:'Live Session 2', timing:'6:00 - 8:00 PM'},
@@ -949,31 +976,37 @@ const UPCOMING_EVENTS = [
   {date:'2026-08-02', section:'B', subject:'The Firm and the Consumer', session:'Live Session 2', timing:'12:20 - 2:20 PM'},
   {date:'2026-08-02', section:'C', subject:'Business Communication', session:'Live Session 2', timing:'10:10 - 12:10 PM'},
   {date:'2026-08-02', section:'C', subject:'Business Statistics', session:'Live Session 2', timing:'12:20 - 2:20 PM'},
-  {date:'2026-08-02', section:'C', subject:'The Firm and the Consumer', session:'Live Session 2', timing:'8:00 - 10:00 AM'}
+  {date:'2026-08-02', section:'C', subject:'The Firm and the Consumer', session:'Live Session 2', timing:'8:00 - 10:00 AM'},
+  {date:'2026-08-08', section:'B', subject:'Business Statistics', session:'Live Session 2', timing:'6:00 - 8:00 PM'},
+  {date:'2026-08-16', section:'A', subject:'The Firm and the Consumer', session:'Live Session 2', timing:'8:00 - 10:00 AM'},
+  {date:'2026-08-16', section:'B', subject:'Global Economics', session:'Live Session 2', timing:'10:10 - 12:10 PM'},
+  {date:'2026-08-16', section:'C', subject:'Organisational Behaviour', session:'Live Session 2', timing:'12:20 - 2:20 PM'}
 ];
 const WINDOW_DAYS = 15;
 
-(function(){
+let sectionFilter = 'ALL';
+
+function renderUpcoming(){
   const today = new Date(); today.setHours(0,0,0,0);
   const horizon = new Date(today); horizon.setDate(horizon.getDate() + WINDOW_DAYS);
   const fmt = d => d.toLocaleDateString('en-GB', {day:'2-digit', month:'short'});
 
-  const upcoming = UPCOMING_EVENTS
+  let upcoming = UPCOMING_EVENTS
     .map(e => ({...e, dateObj: new Date(e.date + 'T00:00:00')}))
     .filter(e => e.dateObj >= today && e.dateObj <= horizon)
     .sort((a,b) => a.dateObj - b.dateObj);
+
+  if(sectionFilter !== 'ALL'){
+    upcoming = upcoming.filter(e => e.section === sectionFilter);
+  }
 
   const bar = document.getElementById('bulletinBar');
   const barText = document.getElementById('bulletinText');
   const homeContent = document.getElementById('homeUpcoming');
   const tabContent = document.getElementById('upcomingContent');
 
-  const closeBtn = document.getElementById('bulletinClose');
-  if(closeBtn) closeBtn.addEventListener('click', () => { if(bar) bar.style.display = 'none'; });
-  const moreBtn = document.getElementById('bulletinMore');
-  if(moreBtn) moreBtn.addEventListener('click', () => { jumpTo('upcoming'); });
-
-  const emptyMsg = '<div class="card" style="color:var(--ink-soft); font-size:13.5px;">No sessions listed in the next ' + WINDOW_DAYS + ' days. List last updated ' + LIST_UPDATED + '.</div>';
+  const sectionLabel = sectionFilter === 'ALL' ? 'any section' : 'Section ' + sectionFilter;
+  const emptyMsg = '<div class="card" style="color:var(--ink-soft); font-size:13.5px;">No sessions listed in the next ' + WINDOW_DAYS + ' days for ' + sectionLabel + '. List last updated ' + LIST_UPDATED + '.</div>';
 
   if(upcoming.length === 0){
     if(bar) bar.style.display = 'none';
@@ -995,24 +1028,25 @@ const WINDOW_DAYS = 15;
     ).join('');
   }
 
-  // Full table (used on the dedicated Upcoming Sessions tab, no restriction)
+  // Full table (used on the dedicated Upcoming Sessions tab, no month restriction)
   const fullTable = '<div class="card"><table class="ia-table"><tr><th>Date</th><th>Session</th><th>Subject</th><th>Section</th><th>Time</th></tr>' + rowsHtml(upcoming) + '</table>' +
     '<div style="margin-top:10px; font-size:11px; color:var(--ink-soft);">List last updated ' + LIST_UPDATED + ' &middot; refreshed manually, weekly.</div></div>';
   if(tabContent) tabContent.innerHTML = fullTable;
 
-  // Home widget: July-only visible by default, rest tucked behind a click-to-expand drawer
-  const julyOnly = upcoming.filter(e => e.dateObj.getMonth() === 6); // 6 = July (0-indexed)
-  const rest = upcoming.filter(e => e.dateObj.getMonth() !== 6);
+  // Home widget: first 4 upcoming sessions visible by default, rest tucked behind a click-to-expand drawer
+  const VISIBLE_COUNT = 4;
+  const visibleFirst = upcoming.slice(0, VISIBLE_COUNT);
+  const rest = upcoming.slice(VISIBLE_COUNT);
 
   let homeHtml = '';
-  if(julyOnly.length > 0){
-    homeHtml += '<div class="card"><table class="ia-table"><tr><th>Date</th><th>Session</th><th>Subject</th><th>Section</th><th>Time</th></tr>' + rowsHtml(julyOnly) + '</table></div>';
+  if(visibleFirst.length > 0){
+    homeHtml += '<div class="card"><table class="ia-table"><tr><th>Date</th><th>Session</th><th>Subject</th><th>Section</th><th>Time</th></tr>' + rowsHtml(visibleFirst) + '</table></div>';
   } else {
-    homeHtml += '<div class="card" style="color:var(--ink-soft); font-size:13.5px;">No sessions left in July across any section.</div>';
+    homeHtml += '<div class="card" style="color:var(--ink-soft); font-size:13.5px;">No upcoming sessions for ' + sectionLabel + '.</div>';
   }
   if(rest.length > 0){
     homeHtml += '<div style="margin-top:8px;">' +
-      '<button type="button" id="homeMoreToggle" class="xref" style="text-decoration:none;">Show ' + rest.length + ' more upcoming (beyond July) &darr;</button>' +
+      '<button type="button" id="homeMoreToggle" class="xref" style="text-decoration:none;">Show ' + rest.length + ' more upcoming &darr;</button>' +
       '<div id="homeMoreDrawer" style="display:none; margin-top:8px;"><div class="card"><table class="ia-table"><tr><th>Date</th><th>Session</th><th>Subject</th><th>Section</th><th>Time</th></tr>' + rowsHtml(rest) + '</table></div></div>' +
     '</div>';
   }
@@ -1025,11 +1059,30 @@ const WINDOW_DAYS = 15;
       toggle.addEventListener('click', () => {
         const isOpen = drawer.style.display !== 'none';
         drawer.style.display = isOpen ? 'none' : 'block';
-        toggle.innerHTML = isOpen ? 'Show ' + rest.length + ' more upcoming (beyond July) &darr;' : 'Hide extra upcoming &uarr;';
+        toggle.innerHTML = isOpen ? 'Show ' + rest.length + ' more upcoming &darr;' : 'Hide extra upcoming &uarr;';
       });
     }
   }
-})();
+}
+
+function setSectionFilter(section){
+  sectionFilter = section;
+  document.querySelectorAll('.sec-filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.section === section);
+  });
+  renderUpcoming();
+}
+
+document.querySelectorAll('.sec-filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => setSectionFilter(btn.dataset.section));
+});
+
+const closeBtn = document.getElementById('bulletinClose');
+if(closeBtn) closeBtn.addEventListener('click', () => { const b = document.getElementById('bulletinBar'); if(b) b.style.display = 'none'; });
+const moreBtn = document.getElementById('bulletinMore');
+if(moreBtn) moreBtn.addEventListener('click', () => { jumpTo('upcoming'); });
+
+renderUpcoming();
 
 /* ---------- Per-page IST timestamp + contact line ---------- */
 (function(){
