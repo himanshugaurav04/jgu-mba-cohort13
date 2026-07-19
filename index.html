@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>JGU MBA · Cohort 13 Companion</title>
+<style>
+:root{
+  --bg:#ffffff;
+  --bg-soft:#f7f8fa;
+  --ink:#15161a;
+  --ink-soft:#5b5f6b;
+  --line:#e7e9ee;
+  --blue:#2457e8;
+  --blue-soft:#eef2ff;
+  --green:#0f9d58;
+  --green-soft:#e9f9f0;
+  --green-line:#bfead1;
+  --amber:#b45309;
+  --amber-soft:#fef6e7;
+  --amber-line:#f3dfab;
+  --radius:14px;
+  --shadow: 0 1px 2px rgba(20,20,30,.04), 0 8px 24px rgba(20,20,30,.05);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  line-height:1.5;
+}
+::selection{background:var(--blue-soft); color:var(--blue);}
+
+/* ---------- Header ---------- */
+.topbar{
+  position:sticky; top:0; z-index:50;
+  background:rgba(255,255,255,.85);
+  backdrop-filter:saturate(180%) blur(14px);
+  -webkit-backdrop-filter:saturate(180%) blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.topbar-inner{
+  max-width:980px; margin:0 auto;
+  padding:14px 20px 0 20px;
+  display:flex; align-items:flex-start; justify-content:space-between;
+  gap:12px;
+}
+.brand{display:flex; flex-direction:column; gap:2px;}
+.brand-title{font-size:17px; font-weight:700; letter-spacing:-.01em;}
+.brand-sub{font-size:12px; color:var(--ink-soft);}
+
+.creator-badge{
+  display:flex; align-items:center; gap:8px;
+  background:var(--bg-soft);
+  border:1px solid var(--line);
+  border-radius:100px;
+  padding:5px 12px 5px 5px;
+  text-decoration:none;
+  color:var(--ink);
+  flex-shrink:0;
+  transition:border-color .15s ease, background .15s ease;
+}
+.creator-badge:hover{ border-color:#c9cede; background:#eef1f6;}
+.creator-badge img{
+  width:30px; height:30px; border-radius:50%; object-fit:cover;
+  display:block;
+}
+.creator-badge .cb-text{display:flex; flex-direction:column; line-height:1.15;}
+.creator-badge .cb-name{font-size:11.5px; font-weight:600;}
+.creator-badge .cb-role{font-size:10px; color:var(--ink-soft);}
+.creator-badge .cb-li{
+  font-size:10px; color:var(--blue); font-weight:600;
+}
+
+.tabs{
+  max-width:980px; margin:0 auto;
+  display:flex; gap:2px;
+  padding:14px 20px 0 20px;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.tabs::-webkit-scrollbar{display:none;}
+.tab-btn{
+  appearance:none; border:none; background:none; cursor:pointer;
+  font-size:13.5px; font-weight:600; color:var(--ink-soft);
+  padding:10px 14px 12px 14px;
+  border-bottom:2px solid transparent;
+  white-space:nowrap;
+  font-family:inherit;
+  transition:color .15s ease;
+}
+.tab-btn:hover{color:var(--ink);}
+.tab-btn.active{color:var(--blue); border-bottom-color:var(--blue);}
+
+/* ---------- Layout ---------- */
+main{max-width:980px; margin:0 auto; padding:28px 20px 80px 20px;}
+.panel{display:none; animation:fadein .18s ease;}
+.panel.active{display:block;}
+@keyframes fadein{from{opacity:0; transform:translateY(2px);} to{opacity:1; transform:none;}}
+
+h1.page-title{font-size:26px; font-weight:800; letter-spacing:-.02em; margin:0 0 6px 0;}
+p.page-lede{font-size:14.5px; color:var(--ink-soft); margin:0 0 26px 0; max-width:640px;}
+
+.section-label{
+  font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--ink-soft); margin:34px 0 12px 0;
+}
+.section-label:first-of-type{margin-top:0;}
+
+/* ---------- Cards ---------- */
+.card{
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:20px;
+  box-shadow:var(--shadow);
+}
+.card + .card{margin-top:12px;}
+.grid{display:grid; grid-template-columns:repeat(2,1fr); gap:12px;}
+@media (max-width:640px){.grid{grid-template-columns:1fr;}}
+
+.stat-card{padding:16px 18px;}
+.stat-label{font-size:11.5px; color:var(--ink-soft); font-weight:600; margin-bottom:4px;}
+.stat-value{font-size:16px; font-weight:700;}
+
+/* status pill */
+.pill{
+  display:inline-flex; align-items:center; gap:5px;
+  font-size:11px; font-weight:700; letter-spacing:.02em;
+  padding:3px 9px; border-radius:100px;
+  white-space:nowrap;
+}
+.pill-dot{width:6px; height:6px; border-radius:50%; flex-shrink:0;}
+.pill-green{background:var(--green-soft); color:var(--green); border:1px solid var(--green-line);}
+.pill-green .pill-dot{background:var(--green);}
+.pill-amber{background:var(--amber-soft); color:var(--amber); border:1px solid var(--amber-line);}
+.pill-amber .pill-dot{background:var(--amber);}
+.pill-blue{background:var(--blue-soft); color:var(--blue); border:1px solid #cddaff;}
+.pill-blue .pill-dot{background:var(--blue);}
+
+/* ---------- Subject cards ---------- */
+.subject-card{padding:0; overflow:hidden;}
+.subject-head{
+  padding:18px 20px; display:flex; align-items:center; justify-content:space-between; gap:10px;
+  cursor:pointer; user-select:none;
+}
+.subject-head h3{margin:0; font-size:16px; font-weight:700;}
+.subject-prof{font-size:12.5px; color:var(--ink-soft); margin-top:2px;}
+.subject-body{
+  padding:0 20px 20px 20px;
+  border-top:1px solid var(--line);
+  display:none;
+}
+.subject-card.open .subject-body{display:block; padding-top:16px;}
+.chevron{transition:transform .15s ease; color:var(--ink-soft); flex-shrink:0;}
+.subject-card.open .chevron{transform:rotate(180deg);}
+
+.subsection-title{font-size:12.5px; font-weight:700; color:var(--ink); margin:16px 0 8px 0;}
+.subsection-title:first-child{margin-top:0;}
+ul.plain{margin:0; padding-left:18px; font-size:13.5px; color:#2a2c33;}
+ul.plain li{margin-bottom:4px;}
+ol.sessions{margin:0; padding-left:18px; font-size:13.5px;}
+ol.sessions li{margin-bottom:10px;}
+ol.sessions b{font-weight:700;}
+
+table.ia-table{width:100%; border-collapse:collapse; font-size:12.5px; margin-top:4px;}
+table.ia-table th{
+  text-align:left; font-size:10.5px; text-transform:uppercase; letter-spacing:.03em;
+  color:var(--ink-soft); font-weight:700; padding:6px 8px; border-bottom:1px solid var(--line);
+}
+table.ia-table td{padding:9px 8px; border-bottom:1px solid var(--line); vertical-align:top;}
+table.ia-table tr:last-child td{border-bottom:none;}
+
+.date-line{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:9px 0; border-bottom:1px solid var(--line); font-size:13px;}
+.date-line:last-child{border-bottom:none;}
+.date-line .dl-label{font-weight:600;}
+.date-line .dl-value{color:var(--ink-soft); text-align:right;}
+
+.note-box{
+  background:var(--blue-soft); border:1px solid #cddaff; border-radius:10px;
+  padding:12px 14px; font-size:12.5px; color:#1c3fae; margin-top:14px;
+}
+
+/* FAQ */
+details.faq{
+  border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin-bottom:10px;
+  background:var(--bg);
+}
+details.faq summary{
+  cursor:pointer; font-weight:600; font-size:14px; list-style:none;
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+}
+details.faq summary::-webkit-details-marker{display:none;}
+details.faq summary .qmark{color:var(--ink-soft); transition:transform .15s ease;}
+details.faq[open] summary .qmark{transform:rotate(45deg);}
+details.faq .faq-answer{font-size:13.5px; color:var(--ink-soft); margin-top:10px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+
+/* Resources */
+.resource-link{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:14px 18px; border:1px solid var(--line); border-radius:12px;
+  text-decoration:none; color:var(--ink); background:var(--bg);
+  transition:border-color .15s ease, transform .1s ease;
+}
+.resource-link:hover{border-color:var(--blue); transform:translateY(-1px);}
+.resource-link .rl-title{font-weight:700; font-size:14px;}
+.resource-link .rl-sub{font-size:12px; color:var(--ink-soft); margin-top:2px;}
+.resource-link .rl-arrow{color:var(--blue); font-size:16px; flex-shrink:0;}
+
+/* footer */
+footer{
+  max-width:980px; margin:40px auto 0 auto; padding:20px 20px 40px 20px;
+  border-top:1px solid var(--line);
+  font-size:11.5px; color:var(--ink-soft); text-align:center;
+}
+
+@media print{
+  .topbar{position:static;}
+  .tab-btn{display:none;}
+  .panel{display:block !important;}
+  .subject-body{display:block !important;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-title">JGU MBA · Cohort 13</div>
+      <div class="brand-sub">Term 1 companion &middot; Section B</div>
+    </div>
+    <a class="creator-badge" href="https://www.linkedin.com/in/himanshu-gaurav-709ab414/" target="_blank" rel="noopener">
+      <img src="data:image/jpeg;base64,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" alt="Himanshu Gaurav">
+      <span class="cb-text">
+        <span class="cb-name">Himanshu Gaurav</span>
+        <span class="cb-li">Built by &middot; Connect on LinkedIn &rarr;</span>
+      </span>
+    </a>
+  </div>
+  <div class="tabs" id="tabs">
+    <button class="tab-btn active" data-tab="home">Home</button>
+    <button class="tab-btn" data-tab="exam">Examination Guide</button>
+    <button class="tab-btn" data-tab="calendar">Academic Calendar</button>
+    <button class="tab-btn" data-tab="subjects">Subjects</button>
+    <button class="tab-btn" data-tab="resources">Resources</button>
+    <button class="tab-btn" data-tab="faq">FAQ</button>
+  </div>
+</div>
+
+<main>
+
+<!-- ===================== HOME ===================== -->
+<section class="panel active" id="panel-home">
+  <h1 class="page-title">Everything for Term 1, in one place</h1>
+  <p class="page-lede">This page consolidates official information shared across JGU emails, live sessions, the Academic Calendar and university documents &mdash; so you don't have to dig through Outlook, UMS, Telegram and upGrad Prism separately.</p>
+
+  <div class="grid">
+    <div class="card stat-card">
+      <div class="stat-label">Program</div>
+      <div class="stat-value">MBA (Online) &middot; OP Jindal Global University</div>
+    </div>
+    <div class="card stat-card">
+      <div class="stat-label">Batch</div>
+      <div class="stat-value">Cohort 13, powered by upGrad</div>
+    </div>
+    <div class="card stat-card">
+      <div class="stat-label">Term</div>
+      <div class="stat-value">Term 1 &middot; Section B</div>
+    </div>
+    <div class="card stat-card">
+      <div class="stat-label">Subjects this term</div>
+      <div class="stat-value">5</div>
+    </div>
+  </div>
+
+  <div class="section-label">Section B subjects &amp; faculty</div>
+  <div class="card">
+    <div class="date-line"><span class="dl-label">Business Communication</span><span class="dl-value">Rihana Shaik</span></div>
+    <div class="date-line"><span class="dl-label">Business Statistics</span><span class="dl-value">Sachin Yadav</span></div>
+    <div class="date-line"><span class="dl-label">Global Economics</span><span class="dl-value">Siddhartha Bhasker</span></div>
+    <div class="date-line"><span class="dl-label">Organisational Behaviour</span><span class="dl-value">Asim Talukdar</span></div>
+    <div class="date-line"><span class="dl-label">The Firm and the Consumer</span><span class="dl-value">Anand Sharma</span></div>
+  </div>
+
+  <div class="note-box">
+    Section shown here is <b>Section B</b>, matched from the professor names in the shared documents. If your cohort section is different, the faculty names and live session timings below won't apply to you &mdash; check your own Section on the Academic Calendar tab.
+  </div>
+
+  <div class="section-label">Last updated</div>
+  <div class="card stat-card">
+    <div class="stat-value">19 July 2026</div>
+    <div class="stat-label" style="margin-top:6px;">Program Assistant Dean: Prof. Mufsin Puthan Purayil &middot; mufsinp.purayil@jgu.edu.in</div>
+  </div>
+</section>
+
+<!-- ===================== EXAMINATION GUIDE ===================== -->
+<section class="panel" id="panel-exam">
+  <h1 class="page-title">Examination Guide</h1>
+  <p class="page-lede">From the official Program Structure document. This is the pattern for every subject unless a subject's own card says otherwise.</p>
+
+  <div class="section-label">Assessment pattern</div>
+  <div class="card">
+    <table class="ia-table">
+      <tr><th>Component</th><th>Weightage</th><th>Nature</th></tr>
+      <tr><td>Internal Assessment 1</td><td>25%</td><td>MCQ, not proctored, UMS Portal</td></tr>
+      <tr><td>Internal Assessment 2</td><td>25%</td><td>Varies by subject &mdash; see Subjects tab</td></tr>
+      <tr><td>End Term Exam</td><td>50%</td><td>Subjective, faculty + AI proctored, Mercer Mettl</td></tr>
+    </table>
+  </div>
+
+  <div class="section-label">Passing criteria</div>
+  <div class="card">
+    <div class="date-line"><span class="dl-label">Overall (all components combined)</span><span class="dl-value">Minimum 40%</span></div>
+    <div class="date-line"><span class="dl-label">End Term exam specifically</span><span class="dl-value">Minimum 30% out of 50%</span></div>
+  </div>
+
+  <div class="section-label">Internal Assessment (IA) rules</div>
+  <div class="card">
+    <div class="date-line"><span class="dl-label">Format</span><span class="dl-value">MCQ, 60 minutes, no negative marking</span></div>
+    <div class="date-line"><span class="dl-label">Device</span><span class="dl-value">Laptop only &mdash; desktop and mobile not allowed</span></div>
+    <div class="date-line"><span class="dl-label">Environment</span><span class="dl-value">Closed room, closed book, stable internet</span></div>
+    <div class="date-line"><span class="dl-label">Platform</span><span class="dl-value">UMS Portal</span></div>
+    <div class="date-line"><span class="dl-label">Proctoring</span><span class="dl-value">Not proctored</span></div>
+    <div class="date-line"><span class="dl-label">If internet disconnects</span><span class="dl-value">Timer keeps running; exam resumes but lost time is not restored</span></div>
+  </div>
+
+  <div class="section-label">End Term Exam rules</div>
+  <div class="card">
+    <div class="date-line"><span class="dl-label">Format</span><span class="dl-value">Entirely subjective, 3 hours</span></div>
+    <div class="date-line"><span class="dl-label">Platform</span><span class="dl-value">Mercer Mettl</span></div>
+    <div class="date-line"><span class="dl-label">Proctoring</span><span class="dl-value">Faculty-proctored + AI proctored, camera must stay on</span></div>
+    <div class="date-line"><span class="dl-label">Device</span><span class="dl-value">Laptop only, closed room</span></div>
+    <div class="date-line"><span class="dl-label">Schedule</span><span class="dl-value">Fixed time slot, shared 7&ndash;10 days in advance</span></div>
+    <div class="date-line"><span class="dl-label">If internet disconnects</span><span class="dl-value"><span class="pill pill-amber"><span class="pill-dot"></span>Official Clarification Awaited</span></span></div>
+  </div>
+
+  <div class="section-label">Medical cases</div>
+  <div class="card">
+    <div class="date-line"><span class="dl-label">Missed IA</span><span class="dl-value">No reattempt</span></div>
+    <div class="date-line"><span class="dl-label">Missed End Term</span><span class="dl-value">Medical resit possible, Dean approval required</span></div>
+  </div>
+
+  <div class="section-label">Identity verification</div>
+  <div class="card">
+    <div class="date-line"><span class="dl-label">Document required</span><span class="dl-value">JGU ID &mdash; printed, colour, laminated</span></div>
+    <div class="date-line"><span class="dl-label">Mandatory?</span><span class="dl-value"><span class="pill pill-green"><span class="pill-dot"></span>Yes</span></span></div>
+  </div>
+</section>
+
+<!-- ===================== ACADEMIC CALENDAR ===================== -->
+<section class="panel" id="panel-calendar">
+  <h1 class="page-title">Academic Calendar &mdash; Section B</h1>
+  <p class="page-lede">Straight from the official Academic Calendar (Cohort 13, July 2026 tab), Section B rows. Course launch date for every Term 1 subject is 1 July 2026.</p>
+
+  <div class="note-box">
+    Only the Business Communication row in the official calendar has IA1 / IA2 / End Term dates filled in; the other four subjects' rows are blank. Per your confirmation, the same dates are shown below for all subjects as a <b>cohort-wide assumption</b> &mdash; flagged accordingly, not marked as individually confirmed per subject.
+  </div>
+
+  <div class="section-label">Assessment window &mdash; cohort-wide</div>
+  <div class="card">
+    <div class="date-line"><span class="dl-label">Internal Assessment 1 <span class="pill pill-blue" style="margin-left:6px;"><span class="pill-dot"></span>Assumed cohort-wide</span></span><span class="dl-value">11 Aug 2026, 11:00 AM &rarr; 18 Aug 2026, 11:00 PM</span></div>
+    <div class="date-line"><span class="dl-label">Internal Assessment 2 <span class="pill pill-blue" style="margin-left:6px;"><span class="pill-dot"></span>Assumed cohort-wide</span></span><span class="dl-value">8 Sep 2026, 11:00 AM &rarr; 15 Sep 2026, 11:00 PM</span></div>
+    <div class="date-line"><span class="dl-label">End Term Exam <span class="pill pill-blue" style="margin-left:6px;"><span class="pill-dot"></span>Assumed cohort-wide, tentative</span></span><span class="dl-value">21 Sep 2026 &rarr; 29 Sep 2026</span></div>
+  </div>
+
+  <div class="section-label">Live session dates &amp; timings &mdash; confirmed per subject</div>
+  <div class="card">
+    <table class="ia-table">
+      <tr><th>Subject</th><th>LS1</th><th>LS2</th><th>LS3</th></tr>
+      <tr><td>Business Communication</td><td>5 Jul, 8&ndash;10 AM</td><td>2 Aug, 8&ndash;10 AM</td><td>6 Sep, 8&ndash;10 AM</td></tr>
+      <tr><td>Business Statistics</td><td>11 Jul, 6&ndash;8 PM</td><td>8 Aug, 6&ndash;8 PM</td><td>5 Sep, 6&ndash;8 PM</td></tr>
+      <tr><td>Global Economics</td><td>19 Jul, 10:10&ndash;12:10 PM</td><td>16 Aug, 10:10&ndash;12:10 PM</td><td>13 Sep, 10:10&ndash;12:10 PM</td></tr>
+      <tr><td>Organisational Behaviour</td><td>25 Jul, 6&ndash;8 PM</td><td>2 Aug, 10:10&ndash;12:10 PM</td><td>6 Sep, 10:10&ndash;12:10 PM</td></tr>
+      <tr><td>The Firm and the Consumer</td><td>5 Jul, 12:20&ndash;2:20 PM</td><td>2 Aug, 12:20&ndash;2:20 PM</td><td>6 Sep, 12:20&ndash;2:20 PM</td></tr>
+    </table>
+  </div>
+
+  <div class="section-label">Open House session</div>
+  <div class="card date-line" style="border:none;">
+    <span class="dl-label">Date</span>
+    <span class="pill pill-amber"><span class="pill-dot"></span>Official Clarification Awaited</span>
+  </div>
+</section>
+
+<!-- ===================== SUBJECTS ===================== -->
+<section class="panel" id="panel-subjects">
+  <h1 class="page-title">Subjects</h1>
+  <p class="page-lede">Tap a subject to expand its professor, syllabus and live session agenda.</p>
+
+  <!-- Business Communication -->
+  <div class="card subject-card">
+    <div class="subject-head">
+      <div>
+        <h3>Business Communication</h3>
+        <div class="subject-prof">Rihana Shaik</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span class="pill pill-green"><span class="pill-dot"></span>Confirmed</span>
+        <span class="chevron">&#9660;</span>
+      </div>
+    </div>
+    <div class="subject-body">
+      <div class="subsection-title">Assessment breakdown</div>
+      <table class="ia-table">
+        <tr><th>Component</th><th>Window</th><th>Nature</th><th>Marks</th><th>Syllabus</th></tr>
+        <tr><td>IA-1 Quiz</td><td>11 Aug 11 AM &rarr; 18 Aug 11 PM</td><td>MCQ, 60 min</td><td>25</td><td>Module III &mdash; Effective Communication (basics, process, elements, characteristics, Golden Circle, ATOM framework, communication paradigms, culture &amp; communication, verbal/non-verbal)</td></tr>
+        <tr><td>IA-2</td><td>19 Aug 11 AM &rarr; 7 Sep 11 PM</td><td>Single-slide PPT, no recording</td><td>25</td><td>LEGO Turnaround &mdash; separate mail was to follow by 18 Aug 2026</td></tr>
+        <tr><td>End Term Project</td><td>8 Sep 11 AM &rarr; 20 Sep 11 PM</td><td>PPT with video recording, via MS Forms</td><td>50</td><td>Communication Audit of a pre-decided firm &mdash; separate mail was to follow by 20 Aug 2026</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Business Statistics -->
+  <div class="card subject-card">
+    <div class="subject-head">
+      <div>
+        <h3>Business Statistics</h3>
+        <div class="subject-prof">Sachin Yadav</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span class="pill pill-amber"><span class="pill-dot"></span>Syllabus awaited</span>
+        <span class="chevron">&#9660;</span>
+      </div>
+    </div>
+    <div class="subject-body">
+      <div class="subsection-title">Live sessions</div>
+      <p style="font-size:13.5px; color:var(--ink-soft); margin:0;">LS1: 11 Jul, 6&ndash;8 PM &middot; LS2: 8 Aug, 6&ndash;8 PM &middot; LS3: 5 Sep, 6&ndash;8 PM</p>
+      <div class="subsection-title">IA &amp; syllabus</div>
+      <p style="font-size:13.5px; margin:0;"><span class="pill pill-amber"><span class="pill-dot"></span>Official Clarification Awaited</span> &mdash; no syllabus or IA document has been shared for this subject yet.</p>
+    </div>
+  </div>
+
+  <!-- Global Economics -->
+  <div class="card subject-card">
+    <div class="subject-head">
+      <div>
+        <h3>Global Economics</h3>
+        <div class="subject-prof">Siddhartha Bhasker</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span class="pill pill-green"><span class="pill-dot"></span>Confirmed</span>
+        <span class="chevron">&#9660;</span>
+      </div>
+    </div>
+    <div class="subject-body">
+      <div class="subsection-title">Live session agenda</div>
+      <ol class="sessions">
+        <li><b>Session 1 &mdash; Measuring a Nation's Income</b> (Module 2): Concept of GDP &mdash; applications &amp; examples; Real and Nominal GDP &mdash; problems &amp; applications.</li>
+        <li><b>Session 2 &mdash; Unemployment; Money Growth and Inflation</b> (Module 3): Unemployment examples &amp; problems; money growth and inflation case studies &amp; applications.</li>
+        <li><b>Session 3 &mdash; Short-run Economic Fluctuations</b> (Module 4): Aggregate Demand&ndash;Aggregate Supply model, applications &amp; case studies.</li>
+      </ol>
+      <div class="subsection-title">Assessment breakdown</div>
+      <table class="ia-table">
+        <tr><th>Component</th><th>Weightage</th><th>Syllabus</th></tr>
+        <tr><td>IA-1 Quiz</td><td>25%</td><td>Module 2: Getting Started with Macroeconomics</td></tr>
+        <tr><td>IA-2 Quiz</td><td>25%</td><td>Module 3: Unemployment; Monetary System; Money Growth and Inflation</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Organisational Behaviour -->
+  <div class="card subject-card">
+    <div class="subject-head">
+      <div>
+        <h3>Organisational Behaviour</h3>
+        <div class="subject-prof">Asim Talukdar</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span class="pill pill-green"><span class="pill-dot"></span>Confirmed</span>
+        <span class="chevron">&#9660;</span>
+      </div>
+    </div>
+    <div class="subject-body">
+      <div class="subsection-title">Live session agenda</div>
+      <ol class="sessions">
+        <li><b>Session 1</b>: Emergence of OB (Module 1); Individual Behaviour (Module 2) &mdash; Johari Window, Transactional Analysis, MARS model, drivers of individual behaviour (values &amp; ethics, personality, perception &amp; attribution theory, emotion, attitude &amp; behaviour, emotional intelligence, stress at workplace).</li>
+        <li><b>Session 2</b>: Individual Motivation and Decision; Team Dynamics (Module 3) &mdash; building effective teams, barriers, contemporary teams, diversity &amp; inclusion; Power &amp; its impact; Conflict management.</li>
+        <li><b>Session 3</b>: Organizational Structure (Module 4); Organizational Culture; Organizational Change.</li>
+      </ol>
+      <div class="subsection-title">IA-1 syllabus</div>
+      <ul class="plain">
+        <li>Emergence of OB (Module 1)</li>
+        <li>Individual Behaviour (Module 2) &mdash; Johari Window, Transactional Analysis, MARS model, drivers of individual behaviour, perception &amp; attribution theory, emotion/attitude/behaviour, emotional intelligence, stress at workplace</li>
+        <li>Individual Motivation</li>
+      </ul>
+      <div class="subsection-title">IA-2 syllabus</div>
+      <ul class="plain">
+        <li>Team Dynamics (Module 3) &mdash; building effective teams, barriers, contemporary teams, diversity &amp; inclusion</li>
+        <li>Power &amp; its impact; Conflict management</li>
+        <li>Organizational Structure (Module 4)</li>
+        <li>Organizational Culture; Organizational Change</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- The Firm and the Consumer -->
+  <div class="card subject-card">
+    <div class="subject-head">
+      <div>
+        <h3>The Firm and the Consumer</h3>
+        <div class="subject-prof">Anand Sharma</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span class="pill pill-green"><span class="pill-dot"></span>Confirmed</span>
+        <span class="chevron">&#9660;</span>
+      </div>
+    </div>
+    <div class="subject-body">
+      <div class="subsection-title">Live session agenda</div>
+      <ol class="sessions">
+        <li><b>Session 1</b>: Introduction to the Course; Demand and Supply; Market Equilibrium; Elasticity of Demand; applications &amp; examples.</li>
+        <li><b>Session 2</b>: Theory of Production and Cost; examples &amp; applications.</li>
+        <li><b>Session 3</b>: Overview of Market Structures; cases, examples &amp; applications.</li>
+      </ol>
+      <div class="subsection-title">Assessment breakdown</div>
+      <table class="ia-table">
+        <tr><th>Component</th><th>Weightage</th><th>Syllabus</th></tr>
+        <tr><td>IA-1 Quiz</td><td>25%</td><td>Module 2: The Market Forces of Demand and Supply</td></tr>
+        <tr><td>IA-2 Quiz</td><td>25%</td><td>Module 3 (topic name not yet specified in shared syllabus)</td></tr>
+      </table>
+      <div class="note-box">Per Prof. Anand Sharma's email: IA-1 is MCQ-based with no negative marking, window 11 Aug (11 AM) &rarr; 18 Aug (11 PM) &mdash; matches the cohort-wide window on the Calendar tab.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== RESOURCES ===================== -->
+<section class="panel" id="panel-resources">
+  <h1 class="page-title">Resources</h1>
+  <p class="page-lede">The official portals and links you'll use most.</p>
+
+  <div class="grid" style="grid-template-columns:1fr;">
+    <a class="resource-link" href="https://ums.jgu.edu.in/login/index.php" target="_blank" rel="noopener">
+      <div><div class="rl-title">UMS Portal</div><div class="rl-sub">University portal &middot; login with your Outlook credentials</div></div>
+      <div class="rl-arrow">&rarr;</div>
+    </a>
+    <a class="resource-link" href="https://library.jgu.edu.in/" target="_blank" rel="noopener">
+      <div><div class="rl-title">University Library</div><div class="rl-sub">jgu.edu.in library portal</div></div>
+      <div class="rl-arrow">&rarr;</div>
+    </a>
+    <a class="resource-link" href="https://t.me/+9jkYZhQvSKI5MGFl" target="_blank" rel="noopener">
+      <div><div class="rl-title">Telegram Channel</div><div class="rl-sub">Cohort 13 official channel</div></div>
+      <div class="rl-arrow">&rarr;</div>
+    </a>
+    <div class="resource-link" style="cursor:default;">
+      <div><div class="rl-title">Program Structure</div><div class="rl-sub">Shared as an official PDF &mdash; no public link provided; check Outlook / Prism</div></div>
+    </div>
+    <div class="resource-link" style="cursor:default;">
+      <div><div class="rl-title">Academic Calendar</div><div class="rl-sub">Shared as an official spreadsheet &mdash; no public link provided; check Outlook / Prism</div></div>
+    </div>
+    <div class="resource-link" style="cursor:default;">
+      <div><div class="rl-title">Outlook Mail</div><div class="rl-sub">All official university communication arrives here &mdash; credentials from the Registrar team</div></div>
+    </div>
+    <div class="resource-link" style="cursor:default;">
+      <div><div class="rl-title">SPOC &mdash; Program Assistant Dean</div><div class="rl-sub">Prof. Mufsin Puthan Purayil &middot; mufsinp.purayil@jgu.edu.in</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FAQ ===================== -->
+<section class="panel" id="panel-faq">
+  <h1 class="page-title">FAQ</h1>
+  <p class="page-lede">Only officially answered questions appear here. Anything not yet confirmed is marked clearly rather than guessed at.</p>
+
+  <details class="faq" open>
+    <summary>Can I take the exam on my mobile phone? <span class="qmark">+</span></summary>
+    <div class="faq-answer">No.</div>
+  </details>
+  <details class="faq">
+    <summary>Can I take the exam on a desktop? <span class="qmark">+</span></summary>
+    <div class="faq-answer">No.</div>
+  </details>
+  <details class="faq">
+    <summary>Can I take the exam on a laptop? <span class="qmark">+</span></summary>
+    <div class="faq-answer">Yes &mdash; laptop only, for both IA and End Term.</div>
+  </details>
+  <details class="faq">
+    <summary>Is there negative marking in the Internal Assessment? <span class="qmark">+</span></summary>
+    <div class="faq-answer">No.</div>
+  </details>
+  <details class="faq">
+    <summary>Is there negative marking in the End Term exam? <span class="qmark">+</span></summary>
+    <div class="faq-answer"><span class="pill pill-amber"><span class="pill-dot"></span>Official Clarification Awaited</span></div>
+  </details>
+  <details class="faq">
+    <summary>What happens if my internet disconnects during an IA? <span class="qmark">+</span></summary>
+    <div class="faq-answer">The timer keeps running and the exam resumes, but lost time is not restored.</div>
+  </details>
+  <details class="faq">
+    <summary>What happens if my internet disconnects during the End Term exam? <span class="qmark">+</span></summary>
+    <div class="faq-answer"><span class="pill pill-amber"><span class="pill-dot"></span>Official Clarification Awaited</span></div>
+  </details>
+  <details class="faq">
+    <summary>What ID do I need for identity verification? <span class="qmark">+</span></summary>
+    <div class="faq-answer">A printed, colour, laminated JGU ID &mdash; mandatory.</div>
+  </details>
+  <details class="faq">
+    <summary>What if I miss an IA for medical reasons? <span class="qmark">+</span></summary>
+    <div class="faq-answer">No reattempt is offered for a missed IA.</div>
+  </details>
+  <details class="faq">
+    <summary>What if I miss the End Term exam for medical reasons? <span class="qmark">+</span></summary>
+    <div class="faq-answer">A medical resit is possible, subject to Dean approval.</div>
+  </details>
+  <details class="faq">
+    <summary>Can I use a calculator during the exam? <span class="qmark">+</span></summary>
+    <div class="faq-answer"><span class="pill pill-amber"><span class="pill-dot"></span>Official Clarification Awaited</span></div>
+  </details>
+  <details class="faq">
+    <summary>Are headphones allowed? <span class="qmark">+</span></summary>
+    <div class="faq-answer"><span class="pill pill-amber"><span class="pill-dot"></span>Official Clarification Awaited</span></div>
+  </details>
+  <details class="faq">
+    <summary>Is a dual monitor setup allowed? <span class="qmark">+</span></summary>
+    <div class="faq-answer"><span class="pill pill-amber"><span class="pill-dot"></span>Official Clarification Awaited</span></div>
+  </details>
+  <details class="faq">
+    <summary>Are breaks allowed during the exam? <span class="qmark">+</span></summary>
+    <div class="faq-answer"><span class="pill pill-amber"><span class="pill-dot"></span>Official Clarification Awaited</span></div>
+  </details>
+  <details class="faq">
+    <summary>Can I review my answers before submitting? <span class="qmark">+</span></summary>
+    <div class="faq-answer"><span class="pill pill-amber"><span class="pill-dot"></span>Official Clarification Awaited</span></div>
+  </details>
+  <details class="faq">
+    <summary>Is rough paper allowed? <span class="qmark">+</span></summary>
+    <div class="faq-answer"><span class="pill pill-amber"><span class="pill-dot"></span>Official Clarification Awaited</span></div>
+  </details>
+</section>
+
+</main>
+
+<footer>
+  This page consolidates information shared across official JGU emails, live sessions, the Academic Calendar and university documents. It does not replace the UMS portal, Outlook, or upGrad Prism &mdash; always confirm exam-critical details there. Last updated 19 July 2026.
+</footer>
+
+<script>
+const tabs = document.querySelectorAll('.tab-btn');
+const panels = document.querySelectorAll('.panel');
+tabs.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    tabs.forEach(b=>b.classList.remove('active'));
+    panels.forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+    window.scrollTo({top:0, behavior:'instant'});
+  });
+});
+document.querySelectorAll('.subject-head').forEach(head=>{
+  head.addEventListener('click', ()=>{
+    head.parentElement.classList.toggle('open');
+  });
+});
+</script>
+</body>
+</html>
