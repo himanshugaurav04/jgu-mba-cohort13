@@ -114,6 +114,24 @@ body{
 }
 .search-clear:hover{color:var(--ink);}
 
+.bulletin-bar-outer{max-width:980px; margin:0 auto; padding:0 20px 12px 20px;}
+.bulletin-bar{
+  padding:10px 14px; box-sizing:border-box;
+  background:var(--blue-soft); border:1px solid #cddaff; border-radius:11px;
+  display:flex; align-items:center; gap:10px; font-size:12.5px; color:#1c3fae;
+}
+.bulletin-icon{flex-shrink:0;}
+.bulletin-text{flex:1; font-weight:600;}
+.bulletin-more{
+  border:none; background:none; color:var(--blue); font-weight:700; cursor:pointer;
+  font-family:inherit; font-size:12.5px; padding:2px 6px; flex-shrink:0; white-space:nowrap;
+}
+.bulletin-close{
+  border:none; background:none; color:#1c3fae; opacity:.55; cursor:pointer;
+  font-size:16px; padding:0 2px; flex-shrink:0; line-height:1;
+}
+.bulletin-close:hover{opacity:1;}
+
 .xref{
   color:var(--blue); text-decoration:underline dotted; text-underline-offset:2px;
   cursor:pointer; font-weight:700; background:none; border:none; padding:0;
@@ -243,6 +261,12 @@ details.faq .faq-answer{font-size:13.5px; color:var(--ink-soft); margin-top:10px
 .resource-link .rl-arrow{color:var(--blue); font-size:16px; flex-shrink:0;}
 
 /* footer */
+.page-timestamp{
+  margin-top:32px; padding-top:14px; border-top:1px solid var(--line);
+  font-size:11px; color:#9ca0ab; text-align:right; line-height:1.6;
+}
+.page-timestamp a{color:var(--blue); font-weight:600;}
+
 footer{
   max-width:980px; margin:40px auto 0 auto; padding:20px 20px 40px 20px;
   border-top:1px solid var(--line);
@@ -277,6 +301,7 @@ footer{
     <button class="tab-btn active" data-tab="home">Home</button>
     <button class="tab-btn" data-tab="exam">Examination Guide</button>
     <button class="tab-btn" data-tab="calendar">Academic Calendar</button>
+    <button class="tab-btn" data-tab="upcoming">Upcoming Sessions</button>
     <button class="tab-btn" data-tab="subjects">Subjects</button>
     <button class="tab-btn" data-tab="peernotes">Peer Notes</button>
     <button class="tab-btn" data-tab="resources">Resources</button>
@@ -287,6 +312,14 @@ footer{
       <span class="search-icon">&#128269;</span>
       <input type="search" id="globalSearch" placeholder="Search a topic, professor, date, subject..." autocomplete="off">
       <button id="searchClear" class="search-clear" type="button" aria-label="Clear search" style="display:none;">&times;</button>
+    </div>
+  </div>
+  <div id="bulletinBar" class="bulletin-bar-outer" style="display:none;">
+    <div class="bulletin-bar">
+      <span class="bulletin-icon">&#128226;</span>
+      <span id="bulletinText" class="bulletin-text">Loading upcoming sessions&hellip;</span>
+      <button id="bulletinMore" class="bulletin-more" type="button">View all &rarr;</button>
+      <button id="bulletinClose" class="bulletin-close" type="button" aria-label="Dismiss">&times;</button>
     </div>
   </div>
 </div>
@@ -301,24 +334,16 @@ footer{
   <h1 class="page-title">Everything for Term 1, in one place</h1>
   <p class="page-lede">This page consolidates official information shared across JGU emails, live sessions, the Academic Calendar and university documents &mdash; so you don't have to dig through Outlook, UMS, Telegram and upGrad Prism separately.</p>
 
-  <div class="grid">
-    <div class="card stat-card">
-      <div class="stat-label">Program</div>
-      <div class="stat-value">MBA (Online) &middot; OP Jindal Global University</div>
-    </div>
-    <div class="card stat-card">
-      <div class="stat-label">Batch</div>
-      <div class="stat-value">Cohort 13, powered by upGrad</div>
-    </div>
-    <div class="card stat-card">
-      <div class="stat-label">Term</div>
-      <div class="stat-value">Term 1 &middot; Section B</div>
-    </div>
-    <div class="card stat-card">
-      <div class="stat-label">Subjects this term</div>
-      <div class="stat-value">5</div>
-    </div>
+  <div class="section-label">Upcoming across all sections (next 15 days)</div>
+  <div id="homeUpcoming">
+    <div class="card" style="color:var(--ink-soft); font-size:13.5px;">Loading upcoming sessions&hellip;</div>
   </div>
+
+  <div class="card" style="margin-top:12px; font-size:12.5px; color:var(--ink-soft);">
+    <b style="color:var(--ink);">Missed a live session?</b> View the recording: log in to <b>upgrad.com/lxp</b> &rarr; open <b>My Programs</b> &rarr; go to the <b>Live Learning</b> tab &rarr; switch to <b>Past Sessions</b> &rarr; find the session and open its recording there.
+  </div>
+
+  <div class="note-box" style="margin-top:12px;">This is <b>Term 1</b> of the Master of Business Administration (Online) from OP Jindal Global University, powered by upGrad &mdash; <b>5 subjects</b> this term.</div>
 
   <div class="section-label">Section B subjects &amp; faculty</div>
   <div class="card">
@@ -338,6 +363,7 @@ footer{
     <div class="stat-value">19 July 2026</div>
     <div class="stat-label" style="margin-top:6px;">Program Assistant Dean: Prof. Mufsin Puthan Purayil &middot; mufsinp.purayil@jgu.edu.in</div>
   </div>
+  <div class="page-timestamp"></div>
 </section>
 
 <!-- ===================== EXAMINATION GUIDE ===================== -->
@@ -396,6 +422,7 @@ footer{
     <div class="date-line"><span class="dl-label">Document required</span><span class="dl-value"><button class="xref" onclick="jumpTo('resources','link-jgu-id')">JGU ID</button> &mdash; printed, colour, laminated</span></div>
     <div class="date-line"><span class="dl-label">Mandatory?</span><span class="dl-value"><span class="pill pill-green"><span class="pill-dot"></span>Yes</span></span></div>
   </div>
+  <div class="page-timestamp"></div>
 </section>
 
 <!-- ===================== ACADEMIC CALENDAR ===================== -->
@@ -427,9 +454,20 @@ footer{
     <span class="dl-label">Date</span>
     <span class="pill pill-amber"><span class="pill-dot"></span>Official Clarification Awaited</span>
   </div>
+  <div class="page-timestamp"></div>
 </section>
 
-<!-- ===================== SUBJECTS ===================== -->
+<!-- ===================== UPCOMING SESSIONS ===================== -->
+<section class="panel" id="panel-upcoming">
+  <h1 class="page-title">Upcoming Sessions</h1>
+  <p class="page-lede">Live sessions, IA windows, and End Term windows opening in the next 15 days &mdash; pulled directly from the official Academic Calendar spreadsheet, across all three sections (A, B, C).</p>
+
+  <div id="upcomingContent">
+    <div class="card" style="color:var(--ink-soft); font-size:13.5px;">Loading live data from the Academic Calendar&hellip;</div>
+  </div>
+  <div class="page-timestamp"></div>
+</section>
+
 <section class="panel" id="panel-subjects">
   <h1 class="page-title">Subjects</h1>
   <p class="page-lede">Tap a subject to expand its professor, syllabus and live session agenda.</p>
@@ -575,6 +613,7 @@ footer{
       <div class="note-box">Per Prof. Anand Sharma's email: IA-1 is MCQ-based with no negative marking, window 11 Aug (11 AM) &rarr; 18 Aug (11 PM) &mdash; matches the cohort-wide window on the Calendar tab. IA-2 and End Term syllabus names confirmed from Prof. Anand Sharma's Live Session 1 slide deck.</div>
     </div>
   </div>
+  <div class="page-timestamp"></div>
 </section>
 
 <!-- ===================== PEER NOTES ===================== -->
@@ -642,6 +681,7 @@ footer{
     </div>
     <div style="margin-top:10px;"><span class="pill pill-blue"><span class="pill-dot"></span>Also applies to: Global Economics</span></div>
   </div>
+  <div class="page-timestamp"></div>
 </section>
 
 <!-- ===================== RESOURCES ===================== -->
@@ -725,6 +765,7 @@ footer{
       </table>
     </div>
   </div>
+  <div class="page-timestamp"></div>
 </section>
 
 <!-- ===================== FAQ ===================== -->
@@ -796,12 +837,14 @@ footer{
     <summary>Is rough paper allowed? <span class="qmark">+</span></summary>
     <div class="faq-answer"><span class="pill pill-amber"><span class="pill-dot"></span>Official Clarification Awaited</span></div>
   </details>
+  <div class="page-timestamp"></div>
 </section>
 
 </main>
 
 <footer>
   This page consolidates information shared across official JGU emails, live sessions, the Academic Calendar and university documents. It does not replace the UMS portal, Outlook, or upGrad Prism &mdash; always confirm exam-critical details there. Last updated 19 July 2026.
+  <div style="margin-top:10px;"><img src="https://visitor-badge.laobi.icu/badge?page_id=himanshugaurav04.jgu-mba-cohort13" alt="Site visits" style="vertical-align:middle;"></div>
   <div style="margin-top:8px; opacity:.75;">Made with &hearts; using Claude</div>
 </footer>
 
@@ -890,6 +933,117 @@ function jumpTo(tabName, targetId){
   }
 }
 
+/* ---------- Upcoming Sessions (manually maintained weekly from the Academic Calendar) ---------- */
+/* To update: edit the UPCOMING_EVENTS array below and the LIST_UPDATED date. Format: 'YYYY-MM-DD'. */
+const LIST_UPDATED = '19 Jul 2026';
+const UPCOMING_EVENTS = [
+  {date:'2026-07-19', section:'A', subject:'The Firm and the Consumer', session:'Live Session 1', timing:'8:00 - 10:00 AM'},
+  {date:'2026-07-19', section:'B', subject:'Global Economics', session:'Live Session 1', timing:'10:10 - 12:10 PM'},
+  {date:'2026-07-19', section:'C', subject:'Organisational Behaviour', session:'Live Session 1', timing:'12:20 - 2:20 PM'},
+  {date:'2026-07-25', section:'B', subject:'Organisational Behaviour', session:'Live Session 1', timing:'6:00 - 8:00 PM'},
+  {date:'2026-08-01', section:'A', subject:'Business Communication', session:'Live Session 2', timing:'6:00 - 8:00 PM'},
+  {date:'2026-08-01', section:'C', subject:'Global Economics', session:'Live Session 2', timing:'6:00 - 8:00 PM'},
+  {date:'2026-08-02', section:'A', subject:'Business Statistics', session:'Live Session 2', timing:'8:00 - 10:00 AM'},
+  {date:'2026-08-02', section:'A', subject:'Global Economics', session:'Live Session 2', timing:'10:10 - 12:10 PM'},
+  {date:'2026-08-02', section:'B', subject:'Business Communication', session:'Live Session 2', timing:'8:00 - 10:00 AM'},
+  {date:'2026-08-02', section:'B', subject:'The Firm and the Consumer', session:'Live Session 2', timing:'12:20 - 2:20 PM'},
+  {date:'2026-08-02', section:'C', subject:'Business Communication', session:'Live Session 2', timing:'10:10 - 12:10 PM'},
+  {date:'2026-08-02', section:'C', subject:'Business Statistics', session:'Live Session 2', timing:'12:20 - 2:20 PM'},
+  {date:'2026-08-02', section:'C', subject:'The Firm and the Consumer', session:'Live Session 2', timing:'8:00 - 10:00 AM'}
+];
+const WINDOW_DAYS = 15;
+
+(function(){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const horizon = new Date(today); horizon.setDate(horizon.getDate() + WINDOW_DAYS);
+  const fmt = d => d.toLocaleDateString('en-GB', {day:'2-digit', month:'short'});
+
+  const upcoming = UPCOMING_EVENTS
+    .map(e => ({...e, dateObj: new Date(e.date + 'T00:00:00')}))
+    .filter(e => e.dateObj >= today && e.dateObj <= horizon)
+    .sort((a,b) => a.dateObj - b.dateObj);
+
+  const bar = document.getElementById('bulletinBar');
+  const barText = document.getElementById('bulletinText');
+  const homeContent = document.getElementById('homeUpcoming');
+  const tabContent = document.getElementById('upcomingContent');
+
+  const closeBtn = document.getElementById('bulletinClose');
+  if(closeBtn) closeBtn.addEventListener('click', () => { if(bar) bar.style.display = 'none'; });
+  const moreBtn = document.getElementById('bulletinMore');
+  if(moreBtn) moreBtn.addEventListener('click', () => { jumpTo('upcoming'); });
+
+  const emptyMsg = '<div class="card" style="color:var(--ink-soft); font-size:13.5px;">No sessions listed in the next ' + WINDOW_DAYS + ' days. List last updated ' + LIST_UPDATED + '.</div>';
+
+  if(upcoming.length === 0){
+    if(bar) bar.style.display = 'none';
+    if(homeContent) homeContent.innerHTML = emptyMsg;
+    if(tabContent) tabContent.innerHTML = emptyMsg;
+    return;
+  }
+
+  const next = upcoming[0];
+  const label = next.session + ' &mdash; ' + next.subject + ' (Section ' + next.section + '), ' + fmt(next.dateObj) + (next.timing ? ', ' + next.timing : '');
+  if(barText) barText.innerHTML = upcoming.length > 1
+    ? label + ' &nbsp;&middot;&nbsp; ' + (upcoming.length - 1) + ' more in the next ' + WINDOW_DAYS + ' days'
+    : label;
+  if(bar) bar.style.display = 'block';
+
+  function rowsHtml(list){
+    return list.map(e =>
+      '<tr><td>' + fmt(e.dateObj) + '</td><td>' + e.session + '</td><td>' + e.subject + '</td><td>Section ' + e.section + '</td><td>' + (e.timing || '&mdash;') + '</td></tr>'
+    ).join('');
+  }
+
+  // Full table (used on the dedicated Upcoming Sessions tab, no restriction)
+  const fullTable = '<div class="card"><table class="ia-table"><tr><th>Date</th><th>Session</th><th>Subject</th><th>Section</th><th>Time</th></tr>' + rowsHtml(upcoming) + '</table>' +
+    '<div style="margin-top:10px; font-size:11px; color:var(--ink-soft);">List last updated ' + LIST_UPDATED + ' &middot; refreshed manually, weekly.</div></div>';
+  if(tabContent) tabContent.innerHTML = fullTable;
+
+  // Home widget: July-only visible by default, rest tucked behind a click-to-expand drawer
+  const julyOnly = upcoming.filter(e => e.dateObj.getMonth() === 6); // 6 = July (0-indexed)
+  const rest = upcoming.filter(e => e.dateObj.getMonth() !== 6);
+
+  let homeHtml = '';
+  if(julyOnly.length > 0){
+    homeHtml += '<div class="card"><table class="ia-table"><tr><th>Date</th><th>Session</th><th>Subject</th><th>Section</th><th>Time</th></tr>' + rowsHtml(julyOnly) + '</table></div>';
+  } else {
+    homeHtml += '<div class="card" style="color:var(--ink-soft); font-size:13.5px;">No sessions left in July across any section.</div>';
+  }
+  if(rest.length > 0){
+    homeHtml += '<div style="margin-top:8px;">' +
+      '<button type="button" id="homeMoreToggle" class="xref" style="text-decoration:none;">Show ' + rest.length + ' more upcoming (beyond July) &darr;</button>' +
+      '<div id="homeMoreDrawer" style="display:none; margin-top:8px;"><div class="card"><table class="ia-table"><tr><th>Date</th><th>Session</th><th>Subject</th><th>Section</th><th>Time</th></tr>' + rowsHtml(rest) + '</table></div></div>' +
+    '</div>';
+  }
+  homeHtml += '<div style="margin-top:8px; font-size:11px; color:var(--ink-soft);">List last updated ' + LIST_UPDATED + ' &middot; refreshed manually, weekly.</div>';
+  if(homeContent){
+    homeContent.innerHTML = homeHtml;
+    const toggle = document.getElementById('homeMoreToggle');
+    const drawer = document.getElementById('homeMoreDrawer');
+    if(toggle && drawer){
+      toggle.addEventListener('click', () => {
+        const isOpen = drawer.style.display !== 'none';
+        drawer.style.display = isOpen ? 'none' : 'block';
+        toggle.innerHTML = isOpen ? 'Show ' + rest.length + ' more upcoming (beyond July) &darr;' : 'Hide extra upcoming &uarr;';
+      });
+    }
+  }
+})();
+
+/* ---------- Per-page IST timestamp + contact line ---------- */
+(function(){
+  const now = new Date();
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric',
+    hour: '2-digit', minute: '2-digit', hour12: true
+  }).format(now);
+  const tsLine = 'Viewed ' + parts + ' IST (GMT+5:30)';
+  const contactLine = 'Manali Patil &middot; Program Coordinator, upGrad &middot; LMS/course queries: <a href="mailto:studentsupport@upgrad.com">studentsupport@upgrad.com</a>';
+  document.querySelectorAll('.page-timestamp').forEach(el => {
+    el.innerHTML = contactLine + '<br>' + tsLine;
+  });
+})();
 
 </script>
 </body>
