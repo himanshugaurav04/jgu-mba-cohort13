@@ -310,7 +310,6 @@ footer{
     <button class="tab-btn active" data-tab="home">Home</button>
     <button class="tab-btn" data-tab="exam">Examination Guide</button>
     <button class="tab-btn" data-tab="calendar">Academic Calendar</button>
-    <button class="tab-btn" data-tab="upcoming">Upcoming Sessions</button>
     <button class="tab-btn" data-tab="subjects">Subjects</button>
     <button class="tab-btn" data-tab="peernotes">Peer Notes</button>
     <button class="tab-btn" data-tab="resources">Resources</button>
@@ -327,7 +326,7 @@ footer{
     <div class="bulletin-bar">
       <span class="bulletin-icon">&#128226;</span>
       <span id="bulletinText" class="bulletin-text">Loading upcoming sessions&hellip;</span>
-      <button id="bulletinMore" class="bulletin-more" type="button">View all &rarr;</button>
+      <button id="bulletinMore" class="bulletin-more" type="button">View on Home &rarr;</button>
       <button id="bulletinClose" class="bulletin-close" type="button" aria-label="Dismiss">&times;</button>
     </div>
   </div>
@@ -477,23 +476,6 @@ footer{
   <div class="card date-line" style="border:none;">
     <span class="dl-label">Date</span>
     <span class="pill pill-amber"><span class="pill-dot"></span>Official Clarification Awaited</span>
-  </div>
-  <div class="page-timestamp"></div>
-</section>
-
-<!-- ===================== UPCOMING SESSIONS ===================== -->
-<section class="panel" id="panel-upcoming">
-  <h1 class="page-title">Upcoming Sessions</h1>
-  <p class="page-lede">Live sessions, IA windows, and End Term windows opening in the next 15 days &mdash; pulled directly from the official Academic Calendar spreadsheet, across all three sections (A, B, C).</p>
-
-  <div class="sec-filter-row">
-    <button type="button" class="sec-filter-btn active" data-section="ALL">All Sections</button>
-    <button type="button" class="sec-filter-btn" data-section="A">Section A</button>
-    <button type="button" class="sec-filter-btn" data-section="B">Section B</button>
-    <button type="button" class="sec-filter-btn" data-section="C">Section C</button>
-  </div>
-  <div id="upcomingContent">
-    <div class="card" style="color:var(--ink-soft); font-size:13.5px;">Loading live data from the Academic Calendar&hellip;</div>
   </div>
   <div class="page-timestamp"></div>
 </section>
@@ -1003,7 +985,6 @@ function renderUpcoming(){
   const bar = document.getElementById('bulletinBar');
   const barText = document.getElementById('bulletinText');
   const homeContent = document.getElementById('homeUpcoming');
-  const tabContent = document.getElementById('upcomingContent');
 
   const sectionLabel = sectionFilter === 'ALL' ? 'any section' : 'Section ' + sectionFilter;
   const emptyMsg = '<div class="card" style="color:var(--ink-soft); font-size:13.5px;">No sessions listed in the next ' + WINDOW_DAYS + ' days for ' + sectionLabel + '. List last updated ' + LIST_UPDATED + '.</div>';
@@ -1011,7 +992,6 @@ function renderUpcoming(){
   if(upcoming.length === 0){
     if(bar) bar.style.display = 'none';
     if(homeContent) homeContent.innerHTML = emptyMsg;
-    if(tabContent) tabContent.innerHTML = emptyMsg;
     return;
   }
 
@@ -1027,11 +1007,6 @@ function renderUpcoming(){
       '<tr><td>' + fmt(e.dateObj) + '</td><td>' + e.session + '</td><td>' + e.subject + '</td><td>Section ' + e.section + '</td><td>' + (e.timing || '&mdash;') + '</td></tr>'
     ).join('');
   }
-
-  // Full table (used on the dedicated Upcoming Sessions tab, no month restriction)
-  const fullTable = '<div class="card"><table class="ia-table"><tr><th>Date</th><th>Session</th><th>Subject</th><th>Section</th><th>Time</th></tr>' + rowsHtml(upcoming) + '</table>' +
-    '<div style="margin-top:10px; font-size:11px; color:var(--ink-soft);">List last updated ' + LIST_UPDATED + ' &middot; refreshed manually, weekly.</div></div>';
-  if(tabContent) tabContent.innerHTML = fullTable;
 
   // Home widget: first 4 upcoming sessions visible by default, rest tucked behind a click-to-expand drawer
   const VISIBLE_COUNT = 4;
@@ -1080,7 +1055,7 @@ document.querySelectorAll('.sec-filter-btn').forEach(btn => {
 const closeBtn = document.getElementById('bulletinClose');
 if(closeBtn) closeBtn.addEventListener('click', () => { const b = document.getElementById('bulletinBar'); if(b) b.style.display = 'none'; });
 const moreBtn = document.getElementById('bulletinMore');
-if(moreBtn) moreBtn.addEventListener('click', () => { jumpTo('upcoming'); });
+if(moreBtn) moreBtn.addEventListener('click', () => { jumpTo('home'); });
 
 renderUpcoming();
 
