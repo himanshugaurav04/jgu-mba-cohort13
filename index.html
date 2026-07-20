@@ -409,6 +409,27 @@ footer{
     </button>
   </div>
 
+  <div class="card" style="margin-top:10px;">
+    <div class="subsection-title" style="margin-top:0;">Key Contacts</div>
+    <div class="date-line">
+      <span class="dl-label">Prof. Mufsin Puthan Purayil, Program Assistant Dean</span>
+      <span class="dl-value"><a href="mailto:mufsinp.purayil@jgu.edu.in">mufsinp.purayil@jgu.edu.in</a></span>
+    </div>
+    <div style="font-size:11.5px; color:var(--ink-soft); margin:-4px 0 10px 0;">For any university-related query or issue.</div>
+
+    <div class="date-line">
+      <span class="dl-label">Manali Patil, Program Coordinator (upGrad)</span>
+      <span class="dl-value"><a href="mailto:manali.patil@upgrad.com">manali.patil@upgrad.com</a></span>
+    </div>
+    <div style="font-size:11.5px; color:var(--ink-soft); margin:-4px 0 10px 0;">Use upGrad email IDs for any query related to upGrad.</div>
+
+    <div class="date-line" style="border-bottom:none;">
+      <span class="dl-label">upGrad Student Support</span>
+      <span class="dl-value"><a href="mailto:studentsupport@upgrad.com">studentsupport@upgrad.com</a></span>
+    </div>
+    <div style="font-size:11.5px; color:var(--ink-soft); margin:-4px 0 0 0;">LMS/course queries; use upGrad email IDs for any query related to upGrad.</div>
+  </div>
+
   <div class="section-label">Upcoming across all sections (next 15 days)</div>
   <div class="sec-filter-row">
     <button type="button" class="sec-filter-btn active" data-section="ALL">All Sections</button>
@@ -460,8 +481,8 @@ footer{
 
   <div class="section-label">Last updated</div>
   <div class="card stat-card">
-    <div class="stat-value">19 July 2026</div>
-    <div class="stat-label" style="margin-top:6px;">Program Assistant Dean: Prof. Mufsin Puthan Purayil &middot; mufsinp.purayil@jgu.edu.in</div>
+    <div class="stat-value">20 July 2026</div>
+    <div class="stat-label" style="margin-top:6px;">5:49 PM IST</div>
   </div>
   <div class="page-timestamp"></div>
 </section>
@@ -727,7 +748,7 @@ footer{
   <h1 class="page-title">Study Material</h1>
   <p class="page-lede">Cohort-written notes and extra material shared by faculty, all in one place instead of scattered across subject cards.</p>
 
-  <div class="note-box">Presentations and books shared by professors can't be posted here, they're copyrighted material meant for this cohort, not a public forum. Find them either in the <button class="xref" onclick="jumpTo('resources','link-library')">JGU Library</button>, or in our WhatsApp group's Media tab. Not in the group yet? Reach out to <b>+91 84344 20028</b> to get added.</div>
+  <div class="note-box">Presentations and books shared by professors can't be posted here, they're copyrighted material meant for this cohort, not a public forum. Find them either in the <button class="xref" onclick="jumpTo('resources','link-library')">JGU Library</button>, or in our WhatsApp group's Media tab.</div>
 
   <div class="sec-filter-row">
     <button type="button" class="notes-filter-btn active" data-view="peer">Peer Notes</button>
@@ -980,7 +1001,7 @@ footer{
 </main>
 
 <footer>
-  This page consolidates information shared across official JGU emails, live sessions, the Academic Calendar and university documents. It does not replace the UMS portal, Outlook, or upGrad Prism; always confirm exam-critical details there. Last updated 19 July 2026.
+  This page consolidates information shared across official JGU emails, live sessions, the Academic Calendar and university documents. It does not replace the UMS portal, Outlook, or upGrad Prism; always confirm exam-critical details there. Last updated 20 July 2026.
   <div style="margin-top:10px;">
     <span class="visit-badge">
       <span class="vb-label">&#128101; PEOPLE REACHED</span><span class="vb-count" id="visitCounter">48</span>
@@ -1357,7 +1378,7 @@ document.querySelectorAll('.notes-filter-btn').forEach(btn => {
     hour: '2-digit', minute: '2-digit', hour12: true
   }).format(now);
   const tsLine = 'Viewed ' + parts + ' IST (GMT+5:30)';
-  const contactLine = 'Manali Patil, Program Coordinator, upGrad: <a href="mailto:manali.patil@upgrad.com">manali.patil@upgrad.com</a> &middot; LMS/course queries: <a href="mailto:studentsupport@upgrad.com">studentsupport@upgrad.com</a>';
+  const contactLine = 'Prof. Mufsin Puthan Purayil, Program Assistant Dean: <a href="mailto:mufsinp.purayil@jgu.edu.in">mufsinp.purayil@jgu.edu.in</a> &middot; Manali Patil, Program Coordinator, upGrad: <a href="mailto:manali.patil@upgrad.com">manali.patil@upgrad.com</a> &middot; LMS/course queries: <a href="mailto:studentsupport@upgrad.com">studentsupport@upgrad.com</a>';
   document.querySelectorAll('.page-timestamp').forEach(el => {
     el.innerHTML = contactLine + '<br>' + tsLine;
   });
