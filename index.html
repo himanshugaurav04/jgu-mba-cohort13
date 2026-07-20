@@ -141,6 +141,19 @@ body{
 .sec-filter-btn:hover{border-color:var(--blue);}
 .sec-filter-btn.active{background:var(--blue); border-color:var(--blue); color:#fff;}
 
+.visit-badge{
+  display:inline-flex; align-items:stretch; border-radius:4px; overflow:hidden;
+  font-size:11px; font-weight:700; letter-spacing:.02em;
+  box-shadow:0 1px 2px rgba(20,20,30,.12);
+}
+.visit-badge .vb-label{
+  background:#555a63; color:#fff; padding:4px 8px; display:flex; align-items:center; gap:4px;
+}
+.visit-badge .vb-count{
+  background:var(--blue); color:#fff; padding:4px 9px; display:flex; align-items:center;
+  font-family:"SF Mono", Consolas, monospace;
+}
+
 .xref{
   color:var(--blue); text-decoration:underline dotted; text-underline-offset:2px;
   cursor:pointer; font-weight:700; background:none; border:none; padding:0;
@@ -289,6 +302,8 @@ footer{
   .subject-body{display:block !important;}
 }
 </style>
+<script data-goatcounter="https://himanshugaurav.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 
@@ -856,7 +871,11 @@ footer{
 
 <footer>
   This page consolidates information shared across official JGU emails, live sessions, the Academic Calendar and university documents. It does not replace the UMS portal, Outlook, or upGrad Prism &mdash; always confirm exam-critical details there. Last updated 19 July 2026.
-  <div style="margin-top:10px;"><img src="https://visitor-badge.laobi.icu/badge?page_id=himanshugaurav04.jgu-mba-cohort13" alt="Site visits" style="vertical-align:middle;"></div>
+  <div style="margin-top:10px;">
+    <span class="visit-badge">
+      <span class="vb-label">&#128065; VISITORS</span><span class="vb-count" id="visitCounter">48</span>
+    </span>
+  </div>
   <div style="margin-top:8px; opacity:.75;">Made with &hearts; using Claude</div>
 </footer>
 
@@ -1058,6 +1077,22 @@ const moreBtn = document.getElementById('bulletinMore');
 if(moreBtn) moreBtn.addEventListener('click', () => { jumpTo('home'); });
 
 renderUpcoming();
+
+/* ---------- Visit counter (GoatCounter total + 48 pre-existing baseline) ---------- */
+(function(){
+  const BASELINE = 48;
+  const el = document.getElementById('visitCounter');
+  if(!el) return;
+  fetch('https://himanshugaurav.goatcounter.com/counter/TOTAL.json')
+    .then(res => { if(!res.ok) throw new Error('not public yet'); return res.json(); })
+    .then(data => {
+      const liveCount = parseInt(String(data.count).replace(/,/g,''), 10) || 0;
+      el.textContent = (BASELINE + liveCount);
+    })
+    .catch(() => {
+      el.textContent = BASELINE + '+';
+    });
+})();
 
 /* ---------- Per-page IST timestamp + contact line ---------- */
 (function(){
